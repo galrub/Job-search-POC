@@ -47,14 +47,11 @@ volumes:
 # Network
 networks:
   frontend:
-    # Specify driver opt
-    name: frontend
-    driver: bridge
-    driver_opts:
-      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
+    external: true
+    name: jobsearch_frontend
   backend:
-    name: backend
-    driver: bridge
+    external: true
+    name: jobsearch_backend
 # top level secrets block
 secrets:                        
   postgres_password:
