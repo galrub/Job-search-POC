@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/static/roboto.min.css" />
+    <link rel="stylesheet" href="/static/tw-elements.min.css" />
+    <link rel="stylesheet" href="/static/main.css" />
+    <script type="text/javascript" src="/static/htmx.js"></script>
+    <script type="text/javascript" src="/static/tailwind.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          fontFamily: {
+            sans: ["Roboto", "sans-serif"],
+            body: ["Roboto", "sans-serif"],
+            mono: ["ui-monospace", "monospace"],
+          },
+        },
+        corePlugins: {
+          preflight: false,
+        },
+      };
+    </script>
+    <title>Applied Job List</title>
+  </head>
+  <body>
+    <!-- Hero -->
+    <div class="relative overflow-hidden">
+      <div class="relative z-10">
+        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
+          <div class="max-w-2xl mx-auto">
+            <p
+              class="inline-block text-sm font-medium bg-clip-text bg-gradient-to-l from-blue-600 to-violet-500 text-transparent dark:from-blue-400 dark:to-violet-400"
+            >
+              Power By... Me
+            </p>
+
+            <!-- Title -->
+            <div class="mt-5 max-w-2xl">
+              <h1
+                class="block font-semibold text-gray-800 text-4xl md:text-5xl lg:text-6xl dark:text-gray-200"
+              >
+                List of applied jobs
+              </h1>
+            </div>
+            <!-- End Title -->
+          </div>
+          <!-- Table start -->
+          <div class="container mx-auto py-16" id="cnt">
+            <div
+              class="grid place-items-center"
+              hx-get="/x/jobs"
+              hx-trigger="load"
+              hx-target="this"
+              id="table_content"
+            >
+              <div
+                class="animate-spin inline-block size-10 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500"
+                role="status"
+                aria-label="loading"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- edit modek -->
+    <div
+      id="editModel"
+      class="fixed hidden z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4"
+    >
+      <div
+        class="relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-md"
+      >
+        <div class="flex justify-end p-2">
+          <button
+            onclick="closeModal('editModel')"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <!-- modle coontent-->
+        <div class="p-6 pt-0 text-center" id="editModelContext">
+          <div
+            class="animate-spin inline-block size-10 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500"
+            role="status"
+            aria-label="loading"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      window.openModal = function (modalId) {
+        document.getElementById(modalId).style.display = "block";
+        document
+          .getElementsByTagName("body")[0]
+          .classList.add("overflow-y-hidden");
+      };
+
+      window.closeModal = function (modalId) {
+        document.getElementById(modalId).style.display = "none";
+        document
+          .getElementsByTagName("body")[0]
+          .classList.remove("overflow-y-hidden");
+      };
+
+      // Close all modals when press ESC
+      document.onkeydown = function (event) {
+        event = event || window.event;
+        if (event.keyCode === 27) {
+          document
+            .getElementsByTagName("body")[0]
+            .classList.remove("overflow-y-hidden");
+          let modals = document.getElementsByClassName("modal");
+          Array.prototype.slice.call(modals).forEach((i) => {
+            i.style.display = "none";
+          });
+        }
+      };
+    </script>
+    <script src="/static/tw-elements.umd.min.js"></script>
+  </body>
+</html>

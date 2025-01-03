@@ -1,0 +1,115 @@
+<div class="p-6 space-y-6">
+  <form
+    hx-post="/x/jobs/{{.JobData.ID}}"
+    hx-on::after-request="closeModal('editModel')"
+    hx-target="#table_content"
+  >
+    <div class="grid grid-cols-6 gap-6">
+      <div class="col-span-6 sm:col-span-3">
+        <label
+          for="company"
+          class="text-sm font-medium text-gray-900 block mb-2"
+          >Company</label
+        >
+        <input
+          type="text"
+          name="company"
+          id="company"
+          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+          required="true"
+          value="{{.JobData.Company}}"
+        />
+      </div>
+      <div class="col-span-4 sm:col-span-2">
+        <label
+          for="contacted"
+          class="text-sm font-medium text-gray-900 block mb-2"
+          >Contacted By Company</label
+        >
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <input
+          type="checkbox"
+          name="contacted"
+          id="contacted"
+          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block p-2.5"
+          placeholder=""
+          {{if
+          .JobData.Contacted}}checked{{end}}
+        />
+      </div>
+      <div class="col-span-full">
+        <label
+          for="position"
+          class="text-sm font-medium text-gray-900 block mb-2"
+          >Position Description</label
+        >
+        <input
+          type="text"
+          name="position"
+          id="position"
+          value="{{ .JobData.PositionDesc }}"
+          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+          required="true"
+        />
+      </div>
+      <div class="col-span-6 sm:col-span-3">
+        <label for="type" class="text-sm font-medium text-gray-900 block mb-2"
+          >Contract Type</label
+        >
+        {{ template "contractTypeCombo" .ContractType }}
+      </div>
+      <div class="col-span-4 sm:col-span-2">
+        <label for="remote" class="text-sm font-medium text-gray-900 block mb-2"
+          >Remote Work</label
+        >
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <input
+          type="checkbox"
+          name="remote"
+          id="remote"
+          {{if
+          .JobData.Remote}}
+          checked
+          {{end}}
+          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block p-2.5"
+        />
+      </div>
+      <div class="col-span-full">
+        <div class="col-span-6 sm:col-span-3">
+          <label
+            for="status"
+            class="text-sm font-medium text-gray-900 block mb-2"
+            >Status</label
+          >
+          <input
+            type="text"
+            name="status"
+            id="status"
+            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+            placeholder="Applied"
+            value="{{ .JobData.GeneralStatus }}"
+            required=""
+          />
+        </div>
+      </div>
+      <div class="col-span-full">
+        <label
+          for="Comments"
+          class="text-sm font-medium text-gray-900 block mb-2"
+          >Comments</label
+        >
+        <textarea id="comments" name="comments" rows="5" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4">{{.JobData.Comments}}</textarea>
+      </div>
+      <div class="col-span-2 sm:col-span-1">
+        <button
+          type="submit"
+          class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        >
+          Save/Create
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+  db:
+    hostname: postges_db
+    ports:
+      - "5432:5432"
+    image: postgres_db
+    environment:
+      POSTGRES_USER: dbAdmin
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      JOBSEARCH_USER: jobadmin
+      JOBSEARCH_PASSWORD_FILE: /run/secrets/jobsearch_password
+      JOBSEARCH_DB: jobsearch
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    secrets:
+      - postgres_password
+      - jobsearch_password
+    networks:
+      - backend
+  go_app:
+    image: go_app
+    ports:
+      - 8080:8080
+    environment:
+      POSTGRES_USER: jobadmin
+      POSTGRES_PASSWORD_FILE: /run/secrets/jobsearch_password
+      POSTGRES_DB: jobsearch
+      POSTGRES_HOST: postges_db
+      LOG_TO_CONSOLE: "true"
+    secrets:
+      - jobsearch_password
+    depends_on:
+      - db
+    volumes:
+      - api-data:/app
+    networks:
+      - frontend
+      - backend
+volumes:
+  db-data:
+    name: db-data
+    driver: local
+  api-data:
+    name: api-data
+    driver: local
+# Network
+networks:
+  frontend:
+    # Specify driver opt
+    name: frontend
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
+  backend:
+    name: backend
+    driver: bridge
+# top level secrets block
+secrets:                        
+  postgres_password:
+    external: true
+  jobsearch_password:
+    external: true

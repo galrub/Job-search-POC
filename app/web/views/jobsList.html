@@ -1,0 +1,74 @@
+<div class="relative overflow-x-auto" id="table_content">
+  <table
+    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">Company</th>
+        <th scope="col" class="px-6 py-3">Position</th>
+        <th scope="col" class="px-6 py-3">Is Remote?</th>
+        <th scope="col" class="px-6 py-3">Contract Type</th>
+        <th scope="col" class="px-6 py-3">Was Contacted?</th>
+        <th scope="col" class="px-6 py-3">Status</th>
+        <th scope="col" class="px-6 py-3">Created At</th>
+        <!--th scope="col" class="px-6 py-3">Updated At</th-->
+        <th scope="col" class="px-6 py-3">Comments</th>
+        <th scope="col" class="px-9 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range .}}
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {{ .Company }}
+        </th>
+        <td class="px-6 py-4">{{ .PositionDesc }}</td>
+        <td class="px-6 py-4">{{ if .Remote }} ✅{{ else }} ❌{{ end }}</td>
+        <td class="px-6 py-4">{{ .ContractType }}</td>
+        <td class="px-6 py-4">{{ if .Contacted }} ✅{{ else }} ❌{{ end }}</td>
+        <td class="px-6 py-4">{{ .GeneralStatus }}</td>
+        <td class="px-6 py-4">{{ .CreatedAt }}</td>
+        <!--td class="px-6 py-4">{{ .UpdatedAt }}</td-->
+        <td class="px-6 py-4">{{ .Comments }}</td>
+        <td class="px-9 py-4">
+          <div class="flex justify-between">
+            <button
+              type="button"
+              class="focus:outline-black text-white text-sm py-2.5 px-4 border-b-4 border-red-600 bg-red-500 hover:bg-red-400"
+              hx-delete="/x/jobs/{{ .ID }}"
+              hx-target="#table_content"
+            >
+              ❌
+            </button>
+            <button
+              type="button"
+              class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+              hx-get="/x/jobs/{{ .ID }}"
+              hx-target="#editModelContext"
+              hx-on::after-request="openModal('editModel')"
+            >
+             &#x1F4DC;
+            </button>
+          </div>
+        </td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+<div class="w-full max-w-xs m-auto rounded p-5">
+  <button
+    type="button"
+    class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+    hx-target="#editModelContext"
+    hx-get="/x/newJob"
+    hx-on::after-request="openModal('editModel')"
+  >
+    Add Job Application
+  </button>
+</div>
